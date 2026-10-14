@@ -18,9 +18,7 @@ public class TransporterInputRequest {
 	public TransporterInputRequest()
 	{	}
 
-	public TransporterInputRequest(@NotEmpty @Valid List<LaneInput> lanes,
-			@NotEmpty @Valid List<TransporterInput> transporters) {
-		super();
+	public TransporterInputRequest(List<LaneInput> lanes, List<TransporterInput> transporters) {
 		this.lanes = lanes;
 		this.transporters = transporters;
 	}
