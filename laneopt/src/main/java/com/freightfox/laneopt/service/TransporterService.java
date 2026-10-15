@@ -99,7 +99,12 @@ public class TransporterService {
         transporterQuoteRepository.saveAll(quotes);
 
         return "Transporter data saved successfully";
+        
 		
+	}
+
+	public List<Transporter> getAllTransporters() {
+		return transporterRepository.findAll();
 	}
 	
 	
