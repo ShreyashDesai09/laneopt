@@ -15,11 +15,11 @@ public class AssignmentRequest {
 		this.maxTransporters = maxTransporters;
 	}
 
-	public Integer getMaxTranInteger() {
+	public Integer getMaxTransporters() {
 		return maxTransporters;
 	}
 
-	public void setMaxTranInteger(Integer maxTransporters) {
+	public void setMaxTransporters(Integer maxTransporters) {
 		this.maxTransporters = maxTransporters;
 	}
 	
