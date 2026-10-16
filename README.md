@@ -1,365 +1,490 @@
-# LaneOpt — Freight Transportation Cost Optimization Engine
+# 🚚 LaneOpt — Freight Transportation Cost Optimization Engine
 
-LaneOpt is a Java Spring Boot backend application that optimizes transporter assignments across logistics lanes while minimizing transportation costs.
+<p align="center">
+  <strong>A Java Spring Boot backend for intelligent transporter assignment and transportation cost optimization.</strong>
+</p>
 
-The application accepts lane details and transporter quotes, then calculates an assignment that balances cost minimization, transporter utilization, and complete lane coverage.
+<p align="center">
+  <a href="https://laneopt.onrender.com">
+    <img src="https://img.shields.io/badge/Live%20Application-Visit%20LaneOpt-16a34a?style=for-the-badge" alt="Live Application">
+  </a>
+  <a href="https://laneopt.onrender.com/swagger-ui/index.html">
+    <img src="https://img.shields.io/badge/API%20Documentation-Swagger-85EA2D?style=for-the-badge&logo=swagger&logoColor=black" alt="Swagger API Documentation">
+  </a>
+  <a href="https://www.loom.com/share/8cf8804e58794ed18dd84d9d203e81f0">
+    <img src="https://img.shields.io/badge/Project%20Demo-Watch%20Video-625DF5?style=for-the-badge&logo=loom&logoColor=white" alt="Project Demonstration">
+  </a>
+</p>
 
-## Objectives
+<p align="center">
+  <img src="https://img.shields.io/badge/Java-21-orange?style=flat-square&logo=openjdk" alt="Java 21">
+  <img src="https://img.shields.io/badge/Spring%20Boot-Backend-6DB33F?style=flat-square&logo=springboot&logoColor=white" alt="Spring Boot">
+  <img src="https://img.shields.io/badge/PostgreSQL-Database-4169E1?style=flat-square&logo=postgresql&logoColor=white" alt="PostgreSQL">
+  <img src="https://img.shields.io/badge/Docker-Containerization-2496ED?style=flat-square&logo=docker&logoColor=white" alt="Docker">
+  <img src="https://img.shields.io/badge/Deployment-Render-46E3B7?style=flat-square&logo=render&logoColor=black" alt="Render">
+  <img src="https://img.shields.io/badge/API%20Docs-OpenAPI-85EA2D?style=flat-square&logo=swagger&logoColor=black" alt="OpenAPI">
+</p>
 
-- **Minimize transportation cost:** Find an assignment with the lowest possible total cost while satisfying the optimization objectives.
-- **Maximize transporter utilization:** Use as many distinct transporters as possible, subject to the user-specified limit.
-- **Ensure complete lane coverage:** Assign a valid transporter to every lane.
-- **Persist input data:** Store lanes, transporters, and their quotes in PostgreSQL.
-- **Provide REST APIs:** Expose endpoints for submitting input data and calculating optimized assignments.
+---
 
-## Tech Stack
+## 📌 Project Overview
 
-- **Language:** Java 21
-- **Framework:** Spring Boot
-- **Web:** Spring Web
-- **Persistence:** Spring Data JPA, Hibernate
-- **Database:** PostgreSQL
-- **Build Tool:** Maven
-- **Testing:** JUnit 5, Mockito
-- **API Documentation:** Swagger UI / OpenAPI
-- **Deployment:** Docker, Render
+LaneOpt is a backend application developed as part of the **FreightFox Backend Assignment — Transporter Assignment on Lanes**.
 
-## Live Application
+The application optimizes transporter assignments across logistics lanes by considering transportation costs, transporter utilization, and complete lane coverage.
 
-- **Base URL:** https://laneopt.onrender.com
-- **Swagger UI:** https://laneopt.onrender.com/swagger-ui/index.html
+It accepts lane information, transporter details, and their corresponding transportation quotes. Based on these inputs and a user-defined transporter limit, the application generates assignments according to the optimization priorities implemented in the service layer.
 
-## API Endpoints
+The application uses PostgreSQL for persistent data storage and exposes REST APIs through Spring Boot. Swagger UI provides interactive API documentation, while Docker and Render are used for deployment.
+
+### 🎯 Key Objectives
+
+- **Cost Optimization:** Minimize the total transportation cost while satisfying the assignment constraints.
+- **Transporter Utilization:** Maximize the number of distinct transporters used within the user-defined limit.
+- **Complete Lane Coverage:** Ensure that every lane receives a valid transporter assignment.
+- **Persistent Storage:** Store lanes, transporters, and their quotes in PostgreSQL.
+- **RESTful API Design:** Provide endpoints for submitting input, calculating assignments, and retrieving stored data.
+- **Interactive Documentation:** Enable API exploration and testing through Swagger UI.
+
+---
+
+## 🔗 Project Links
+
+| Resource | Link |
+|---|---|
+| 🌐 Live Application | [Open LaneOpt](https://laneopt.onrender.com) |
+| 📘 Swagger UI | [Explore and Test APIs](https://laneopt.onrender.com/swagger-ui/index.html) |
+| 🎥 Project Demonstration | [Watch the Loom Video](https://www.loom.com/share/8cf8804e58794ed18dd84d9d203e81f0) |
+| 💻 Source Code | [View GitHub Repository](YOUR_GITHUB_REPOSITORY_URL) |
+
+> **Note:** Replace `YOUR_GITHUB_REPOSITORY_URL` with the actual URL of this repository.
+
+---
+
+## 🛠️ Technology Stack
+
+| Technology | Purpose |
+|---|---|
+| Java 21 | Primary programming language |
+| Spring Boot | Backend application framework |
+| Spring Web MVC | REST API development |
+| Spring Data JPA | Database access and persistence |
+| Hibernate | Object-relational mapping |
+| PostgreSQL | Relational database |
+| Maven | Dependency management and build automation |
+| Springdoc OpenAPI | API documentation and Swagger UI |
+| Docker | Application containerization |
+| Render | Application and database hosting |
+
+---
+
+## 🏗️ Application Architecture
+
+LaneOpt follows a layered architecture to separate API handling, business logic, and database operations.
+
+```text
+Client / Swagger UI
+        |
+        v
+   Controllers
+        |
+        v
+     Services
+        |
+        v
+   Repositories
+        |
+        v
+    PostgreSQL
+```
+
+### Layer Responsibilities
+
+- **Entity:** Represents the core domain objects, including lanes, transporters, and transporter quotes.
+- **Repository:** Provides database operations through Spring Data JPA.
+- **DTO:** Defines the request and response data structures used by the APIs.
+- **Service:** Implements the business logic for input processing and transporter assignment.
+- **Controller:** Exposes REST endpoints and handles incoming HTTP requests.
+- **HomeController:** Redirects the application's root URL to Swagger UI, providing direct access to the API documentation.
+
+---
+
+## 🚀 Live API Endpoints
+
+The application exposes the following REST endpoints.
 
 | Method | Endpoint | Description |
 |---|---|---|
-| POST | `/api/v1/transporters/input` | Submit lanes, transporters, and their quotes |
-| POST | `/api/v1/transporters/assignment` | Calculate optimized transporter assignments |
-| GET | `/api/v1/lanes` | Retrieve all available lanes |
-| GET | `/api/v1/transporters` | Retrieve all available transporters |
-| GET | `/api/v1/lanes/{laneId}/quotes` | Retrieve transporter quotes for a lane, ordered by price |
+| `POST` | `/api/v1/transporters/input` | Submit lanes, transporters, and lane quotes |
+| `POST` | `/api/v1/transporters/assignment` | Calculate transporter assignments |
+| `GET` | `/api/v1/lanes` | Retrieve all lanes |
+| `GET` | `/api/v1/transporters` | Retrieve all transporters |
+| `GET` | `/api/v1/lanes/{laneId}/quotes` | Retrieve quotes associated with a specific lane |
 
-## 1. Submit Transporter Input
+**Base URL**
 
-This endpoint accepts lane information, transporter details, and their transportation quotes.
+```text
+https://laneopt.onrender.com
+```
 
-### Request
+**API Documentation**
+
+[Open Swagger UI](https://laneopt.onrender.com/swagger-ui/index.html)
+
+---
+
+## 1️⃣ Submit Transporter Input
+
+Submits lane details, transporter information, and transportation quotes.
+
+### Request Details
 
 **Method:** `POST`
 
-**URL — Local:**
+**Endpoint:**
+
 ```text
-http://localhost:8081/api/v1/transporters/input
+/api/v1/transporters/input
 ```
 
-**URL — Deployed:**
+**Full URL:**
+
 ```text
 https://laneopt.onrender.com/api/v1/transporters/input
 ```
 
 **Headers:**
+
 ```http
 Content-Type: application/json
 ```
 
-**Body:**
+### Sample Request Body
 
-Select `Body → raw → JSON` in Postman.
-
-Use the following example structure, adjusting the property names to match the input DTO exposed by your application:
+The following example uses Bengaluru as the central origin and five destinations across major Indian cities.
 
 ```json
 {
   "lanes": [
     {
       "id": 1,
-      "origin": "Mumbai",
-      "destination": "Pune"
+      "origin": "Bengaluru",
+      "destination": "Pune",
+      "description": "Bengaluru to Pune transportation lane"
     },
     {
       "id": 2,
-      "origin": "Pune",
-      "destination": "Bangalore"
+      "origin": "Bengaluru",
+      "destination": "Mumbai",
+      "description": "Bengaluru to Mumbai transportation lane"
+    },
+    {
+      "id": 3,
+      "origin": "Bengaluru",
+      "destination": "Chennai",
+      "description": "Bengaluru to Chennai transportation lane"
+    },
+    {
+      "id": 4,
+      "origin": "Bengaluru",
+      "destination": "Hyderabad",
+      "description": "Bengaluru to Hyderabad transportation lane"
+    },
+    {
+      "id": 5,
+      "origin": "Bengaluru",
+      "destination": "Noida",
+      "description": "Bengaluru to Noida transportation lane"
     }
   ],
   "transporters": [
     {
       "id": 101,
-      "name": "Transporter A"
+      "name": "Namma Karnataka Logistics",
+      "laneQuotes": [
+        {
+          "laneId": 1,
+          "quote": 14500
+        },
+        {
+          "laneId": 2,
+          "quote": 16500
+        },
+        {
+          "laneId": 3,
+          "quote": 8500
+        },
+        {
+          "laneId": 4,
+          "quote": 7800
+        },
+        {
+          "laneId": 5,
+          "quote": 26500
+        }
+      ]
     },
     {
       "id": 102,
-      "name": "Transporter B"
-    }
-  ],
-  "quotes": [
-    {
-      "transporterId": 101,
-      "laneId": 1,
-      "quote": 15000
+      "name": "Deccan Express Transport",
+      "laneQuotes": [
+        {
+          "laneId": 1,
+          "quote": 13800
+        },
+        {
+          "laneId": 2,
+          "quote": 15800
+        },
+        {
+          "laneId": 3,
+          "quote": 9200
+        },
+        {
+          "laneId": 4,
+          "quote": 8200
+        },
+        {
+          "laneId": 5,
+          "quote": 25800
+        }
+      ]
     },
     {
-      "transporterId": 102,
-      "laneId": 1,
-      "quote": 14000
+      "id": 103,
+      "name": "Bharat Intercity Freight",
+      "laneQuotes": [
+        {
+          "laneId": 1,
+          "quote": 15200
+        },
+        {
+          "laneId": 2,
+          "quote": 17200
+        },
+        {
+          "laneId": 3,
+          "quote": 8800
+        },
+        {
+          "laneId": 4,
+          "quote": 8100
+        },
+        {
+          "laneId": 5,
+          "quote": 27200
+        }
+      ]
     },
     {
-      "transporterId": 101,
-      "laneId": 2,
-      "quote": 22000
-    },
-    {
-      "transporterId": 102,
-      "laneId": 2,
-      "quote": 20000
+      "id": 104,
+      "name": "SouthWest Cargo Lines",
+      "laneQuotes": [
+        {
+          "laneId": 1,
+          "quote": 14100
+        },
+        {
+          "laneId": 2,
+          "quote": 16100
+        },
+        {
+          "laneId": 3,
+          "quote": 9000
+        },
+        {
+          "laneId": 4,
+          "quote": 7600
+        },
+        {
+          "laneId": 5,
+          "quote": 26100
+        }
+      ]
     }
   ]
 }
 ```
 
-**Note:** Confirm the exact request property names against your input DTO or Swagger request schema before using this example. The JSON illustrates the intended data structure.
+> **Sample data:** Transporter names and quote amounts are illustrative and are not real commercial quotes.
 
-### Expected behavior
+### Expected Behavior
 
-- Accepts lane and transporter information with associated quotes.
-- Persists the input data in PostgreSQL.
-- Makes the data available to the assignment endpoint.
+- Accepts lane, transporter, and quote information.
+- Persists the submitted information in PostgreSQL.
+- Makes the stored data available to the other API endpoints.
 
 ---
 
-## 2. Calculate Optimized Transporter Assignments
+## 2️⃣ Calculate Transporter Assignments
 
-This endpoint calculates transporter assignments based on the maximum number of distinct transporters allowed.
+Calculates assignments based on the user-specified maximum number of distinct transporters.
 
-### Request
+### Request Details
 
 **Method:** `POST`
 
-**URL — Local:**
+**Endpoint:**
+
 ```text
-http://localhost:8081/api/v1/transporters/assignment
+/api/v1/transporters/assignment
 ```
 
-**URL — Deployed:**
+**Full URL:**
+
 ```text
 https://laneopt.onrender.com/api/v1/transporters/assignment
 ```
 
 **Headers:**
+
 ```http
 Content-Type: application/json
 ```
 
-**Body:**
+### Request Body
+
 ```json
 {
   "maxTransporters": 2
 }
 ```
 
-### Example result
+### Optimization Objectives
 
-For the sample input above, an optimal assignment using two distinct transporters is:
+The assignment process considers:
 
-```json
-{
-  "status": "SUCCESS",
-  "totalCost": 35000,
-  "assignments": [
-    {
-      "laneId": 1,
-      "transporterId": 102,
-      "transporterName": "Transporter B",
-      "quote": 14000
-    },
-    {
-      "laneId": 2,
-      "transporterId": 101,
-      "transporterName": "Transporter A",
-      "quote": 22000
-    }
-  ],
-  "selectedTransporters": [
-    101,
-    102
-  ]
-}
-```
+1. Complete coverage of the available lanes.
+2. The maximum number of distinct transporters allowed.
+3. Transportation cost optimization according to the implemented priorities.
 
-**Note:** The exact response field names depend on your assignment response DTO. The example illustrates the expected result; verify it against your actual Swagger response schema.
-
-The total cost is calculated as:
-
-`14,000 + 22,000 = 36,000`
-
-For this example, the assignment using Transporter B for both lanes would cost `14,000 + 20,000 = 34,000`, but it would use only one distinct transporter. If the optimization prioritizes maximizing transporter usage before minimizing cost, the two-transporter assignment is selected at a total cost of `36,000`.
+The actual response contains the assignment result defined by the application's response DTO.
 
 ---
 
-## 3. Retrieve All Lanes
+## 3️⃣ Retrieve All Lanes
 
-This endpoint retrieves the lanes currently stored in the database.
-
-### Request
+Retrieves the lanes currently stored in the database.
 
 **Method:** `GET`
 
-**URL — Local:**
+**Endpoint:**
+
 ```text
-http://localhost:8081/api/v1/lanes
+/api/v1/lanes
 ```
 
-**URL — Deployed:**
+**Full URL:**
+
 ```text
 https://laneopt.onrender.com/api/v1/lanes
 ```
 
-**Headers:** No special headers required.
+**Request Body:** None.
 
-**Body:** None.
-
-### Example response
+**Example Response:**
 
 ```json
 [
   {
     "id": 1,
-    "origin": "Mumbai",
-    "destination": "Pune"
+    "origin": "Bengaluru",
+    "destination": "Pune",
+    "description": "Bengaluru to Pune transportation lane"
   },
   {
     "id": 2,
-    "origin": "Pune",
-    "destination": "Bangalore"
+    "origin": "Bengaluru",
+    "destination": "Mumbai",
+    "description": "Bengaluru to Mumbai transportation lane"
   }
 ]
 ```
 
+The response properties depend on the fields exposed by the lane entity or response DTO.
+
 ---
 
-## 4. Retrieve All Transporters
+## 4️⃣ Retrieve All Transporters
 
-This endpoint retrieves all transporters currently stored in the database.
-
-### Request
+Retrieves transporter information stored in the database.
 
 **Method:** `GET`
 
-**URL — Local:**
+**Endpoint:**
+
 ```text
-http://localhost:8081/api/v1/transporters
+/api/v1/transporters
 ```
 
-**URL — Deployed:**
+**Full URL:**
+
 ```text
 https://laneopt.onrender.com/api/v1/transporters
 ```
 
-**Headers:** No special headers required.
+**Request Body:** None.
 
-**Body:** None.
-
-### Example response
+**Example Response:**
 
 ```json
 [
   {
     "id": 101,
-    "name": "Transporter A"
+    "name": "Namma Karnataka Logistics"
   },
   {
     "id": 102,
-    "name": "Transporter B"
+    "name": "Deccan Express Transport"
   }
 ]
 ```
 
 ---
 
-## 5. Retrieve Quotes for a Specific Lane
+## 5️⃣ Retrieve Quotes for a Specific Lane
 
-This endpoint retrieves the transporter quotes associated with a lane, ordered from lowest to highest price.
-
-### Request
+Retrieves the quotes associated with a lane, including the cheapest quote and the available transporter quotes, according to the implemented response structure.
 
 **Method:** `GET`
 
-**URL — Local:**
+**Endpoint:**
+
 ```text
-http://localhost:8081/api/v1/lanes/1/quotes
+/api/v1/lanes/{laneId}/quotes
 ```
 
-**URL — Deployed:**
+**Example URL — Bengaluru to Pune:**
+
 ```text
 https://laneopt.onrender.com/api/v1/lanes/1/quotes
 ```
 
-Replace `1` with the ID of the lane you want to inspect.
+Replace `1` with the desired lane ID.
 
-**Headers:** No special headers required.
+**Request Body:** None.
 
-**Body:** None.
-
-### Example response
-
-```json
-{
-  "laneId": 1,
-  "origin": "Mumbai",
-  "destination": "Pune",
-  "cheapestTransporter": {
-    "transporterId": 102,
-    "transporterName": "Transporter B",
-    "quote": 14000
-  },
-  "allQuotes": [
-    {
-      "transporterId": 102,
-      "transporterName": "Transporter B",
-      "quote": 14000
-    },
-    {
-      "transporterId": 101,
-      "transporterName": "Transporter A",
-      "quote": 15000
-    }
-  ]
-}
-```
-
-This response makes it easy to identify the cheapest transporter while retaining all available quotes for comparison.
-
-**Note:** Verify the response structure against your actual `LaneQuotesResponse` DTO.
+The response allows consumers to compare transporter prices for a specific route.
 
 ---
 
-## Project Structure
+## 🧪 Testing the APIs
 
-```text
-src/main/java/com/freightfox/laneopt/
-├── controller/
-│   ├── TransporterController.java
-│   ├── AssignmentController.java
-│   └── LaneController.java
-├── dto/
-├── entity/
-│   ├── Lane.java
-│   ├── Transporter.java
-│   └── TransporterQuote.java
-├── repository/
-│   ├── LaneRepository.java
-│   ├── TransporterRepository.java
-│   └── TransporterQuoteRepository.java
-├── service/
-│   ├── TransporterService.java
-│   ├── AssignmentService.java
-│   └── LaneService.java
-└── LaneoptApplication.java
-```
+The APIs can be tested through Swagger UI or an API client such as Postman.
 
-The structure above represents the intended organization. Keep only files and classes that actually exist in your repository.
+### Recommended Testing Sequence
 
-## Running Locally
+1. Submit input using `POST /api/v1/transporters/input`.
+2. Retrieve lanes using `GET /api/v1/lanes`.
+3. Retrieve transporters using `GET /api/v1/transporters`.
+4. Inspect quotes using `GET /api/v1/lanes/{laneId}/quotes`.
+5. Execute the assignment using `POST /api/v1/transporters/assignment`.
+
+This sequence demonstrates the complete workflow, from submitting input data to generating transporter assignments.
+
+---
+
+## 💻 Running Locally
 
 ### Prerequisites
 
@@ -367,67 +492,123 @@ The structure above represents the intended organization. Keep only files and cl
 - Maven
 - PostgreSQL
 
-### Steps
-
-1. Clone the repository:
-
-   ```bash
-   git clone <YOUR_GITHUB_REPOSITORY_URL>
-   ```
-
-2. Navigate to the Spring Boot project directory:
-
-   ```bash
-   cd laneopt
-   ```
-
-3. Configure your PostgreSQL connection in `src/main/resources/application.properties`.
-
-4. Set the database password through the `LANEOPT_DB_PASSWORD` environment variable.
-
-5. Build the application:
-
-   ```bash
-   mvn clean package
-   ```
-
-6. Run the application:
-
-   ```bash
-   mvn spring-boot:run
-   ```
-
-7. Open Swagger UI:
-
-   ```text
-   http://localhost:8081/swagger-ui/index.html
-   ```
-
-## Running Tests
-
-Run the project's tests using:
+### 1. Clone the Repository
 
 ```bash
-mvn test
+git clone YOUR_GITHUB_REPOSITORY_URL
 ```
 
-JUnit 5 and Mockito can be used to test the service layer and assignment logic.
+### 2. Navigate to the Project Directory
 
-## Docker Deployment
+```bash
+cd laneopt
+```
 
-LaneOpt is deployed as a Docker-based Spring Boot application on Render.
+If the repository contains a nested `laneopt` project directory, navigate into that directory before running Maven.
 
-The application uses environment variables for database configuration, allowing the same application build to run in different environments without hardcoding credentials.
+### 3. Configure the Database
 
-## Design Considerations
+Update:
 
-- **Layered architecture:** Separates controllers, services, repositories, and entities.
-- **Spring Data JPA:** Simplifies persistence and database interactions.
-- **PostgreSQL:** Provides relational storage for lanes, transporters, and quotes.
-- **REST APIs:** Exposes the application's functionality through HTTP endpoints.
-- **Swagger/OpenAPI:** Provides interactive API documentation and testing.
-- **Docker:** Packages the application for deployment.
+```text
+src/main/resources/application.properties
+```
 
-## Author
+Configure the PostgreSQL connection and provide the database password through the `LANEOPT_DB_PASSWORD` environment variable.
 
-Developed as a backend assignment demonstrating Java, Spring Boot, relational database integration, REST API development, and transportation cost optimization.
+Do not commit database passwords or other secrets to GitHub.
+
+### 4. Build the Application
+
+```bash
+mvn clean package
+```
+
+### 5. Run the Application
+
+```bash
+mvn spring-boot:run
+```
+
+### 6. Open Swagger UI
+
+```text
+http://localhost:8081/swagger-ui/index.html
+```
+
+The local application uses port `8081` by default, while the deployed service uses the port supplied by its hosting environment.
+
+---
+
+## 🐳 Docker and Deployment
+
+LaneOpt is deployed on Render using Docker.
+
+The deployment uses:
+
+- A Docker-based Spring Boot application.
+- A PostgreSQL database for persistent storage.
+- Environment variables for database configuration.
+- The hosting platform's assigned port.
+- Swagger UI for public API documentation.
+
+### Live Resources
+
+- [Open Live Application](https://laneopt.onrender.com)
+- [Open Swagger UI](https://laneopt.onrender.com/swagger-ui/index.html)
+- [Watch Project Demonstration](https://www.loom.com/share/8cf8804e58794ed18dd84d9d203e81f0)
+
+---
+
+## 📁 Project Structure
+
+The application follows a layered package structure.
+
+```text
+src/main/java/com/freightfox/laneopt/
+├── controller/
+├── dto/
+├── entity/
+├── repository/
+├── service/
+└── LaneoptApplication.java
+```
+
+The controller, DTO, entity, repository, and service packages separate API handling, data representation, persistence, and business logic.
+
+The project also includes the application configuration, Maven build file, and Dockerfile.
+
+---
+
+## 📚 Key Design Considerations
+
+- **Separation of Concerns:** Organizes application responsibilities into distinct layers.
+- **Database Persistence:** Uses PostgreSQL to store lane, transporter, and quote information.
+- **RESTful Design:** Exposes functionality through HTTP endpoints.
+- **API Documentation:** Uses Swagger UI to make the APIs discoverable and testable.
+- **Containerization:** Uses Docker to package the application for deployment.
+- **Configuration Management:** Uses environment variables to configure the deployed application.
+
+---
+
+## 👨‍💻 About the Project
+
+LaneOpt was developed as part of the **FreightFox Backend Assignment — Transporter Assignment on Lanes**.
+
+The project demonstrates practical experience with Java backend development, Spring Boot, REST API design, relational database integration, and application deployment.
+
+The live application and Swagger documentation are available through the links above.
+
+---
+
+<p align="center">
+  <a href="https://laneopt.onrender.com">
+    <img src="https://img.shields.io/badge/Explore%20LaneOpt-Live%20Application-16a34a?style=for-the-badge" alt="Explore LaneOpt">
+  </a>
+  <a href="https://laneopt.onrender.com/swagger-ui/index.html">
+    <img src="https://img.shields.io/badge/Try%20the%20APIs-Open%20Swagger-85EA2D?style=for-the-badge&logo=swagger&logoColor=black" alt="Try the APIs">
+  </a>
+  <a href="https://www.loom.com/share/8cf8804e58794ed18dd84d9d203e81f0">
+    <img src="https://img.shields.io/badge/Watch%20the%20Demo-Loom-625DF5?style=for-the-badge&logo=loom&logoColor=white" alt="Watch the Demo">
+  </a>
+</p>
