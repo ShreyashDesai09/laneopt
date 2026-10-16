@@ -495,7 +495,7 @@ This sequence demonstrates the complete workflow, from submitting input data to 
 ### 1. Clone the Repository
 
 ```bash
-git clone YOUR_GITHUB_REPOSITORY_URL
+git clone https://github.com/ShreyashDesai09/laneopt
 ```
 
 ### 2. Navigate to the Project Directory
